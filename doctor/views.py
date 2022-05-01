@@ -7,20 +7,29 @@ from django.db.models.query import QuerySet
 from django.forms.formsets import formset_factory
 from django.shortcuts import render,redirect,get_object_or_404 
 from django.http import HttpResponse ,Http404
-from doctor.models import Doctor
+import openpyxl
+from doctor.models import Doctor, Patient
 from datetime import datetime,timedelta,date
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import logging    
 from django.contrib import messages
 import re
-
+from openpyxl import load_workbook
+import datetime as dt
+import os
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 
 # Create your views here.
 
 def get_homePage(request):
     return render(request,'index.html') #use html file
+    
+def homePageD(request,user_id):
+    doctor = Doctor.objects.get(user_id = user_id)
+    return render(request,'home.html',{'doctor':doctor}) #use html file
     
 
 def logout_user(request):
@@ -92,13 +101,13 @@ def validateDoctor(name,password):
     return False
 
 
-def Conect(request):
+def Conect(request): #conect the doctor to homepage
     name = request.POST.get('namein')
     password = request.POST.get('passwordin')
 
     if validateDoctor(name,password):
        doctor = Doctor.objects.get(name = name,password = password)
-       return render(request,'Home.html',{'doctor':doctor})
+       return render(request,'home.html',{'doctor':doctor})
     else:
         messages.error(request, 'שם משתמש וסיסמה אינם נכונים, אנא נסה שנית')
         return render(request,'index.html')
@@ -106,22 +115,26 @@ def Conect(request):
 
 
 
-def index(request):
+def index(request,user_id):
+    doctor = Doctor.objects.get(user_id = user_id)
     if "GET" == request.method:
-        return render(request, 'home.html', {})
+        return render(request, 'home.html', {'doctor':doctor})
     else:
-        excel_file = request.FILES["excel_file"]
+        excel_file = request.FILES.get("excel_file",None)
 
         # you may put validations here to check extension or file size
+        if (excel_file==None):
+            return render(request, 'home.html', {'doctor':doctor})
 
-        wb = Doctor.load_workbook(excel_file)
+
+        wb = openpyxl.load_workbook(excel_file)
 
         # getting all sheets
         sheets = wb.sheetnames
         print(sheets)
 
         # getting a particular sheet
-        worksheet = wb["Sheet1"]
+        worksheet = wb["גיליון1"]
         print(worksheet)
 
         # getting active sheet
@@ -132,8 +145,7 @@ def index(request):
         print(worksheet["A1"].value)
 
         excel_data = list()
-        # iterating over the rows and
-        # getting value from each cell in row
+        # iterating over the rows and getting value from each cell in row
         for row in worksheet.iter_rows():
             row_data = list()
             for cell in row:
@@ -141,7 +153,7 @@ def index(request):
                 print(cell.value)
             excel_data.append(row_data)
 
-        return render(request, 'home.html', {"excel_data":excel_data})
+        return render(request, 'home.html', {"excel_data":excel_data, 'doctor':doctor})
 
        
 
@@ -154,3 +166,17 @@ def CheckIfDoctorExist(user_id,name):
             return True
     return False
          
+
+def patientQ(request,user_id):
+    doctor = Doctor.objects.get(user_id = user_id)
+    patient_id=request.POST.get('patient_id')
+    gender = request.POST.get("gender")
+    smoke = request.POST.get("smoke")
+
+    patient = Patient(patient_id=patient_id,gender=gender,smoke=smoke)
+    patient.save()
+    return render(request,'patientQ.html', {'doctor':doctor,'patient':patient})
+
+def addPatientSucc(request,user_id):
+    doctor = Doctor.objects.get(user_id = user_id)
+    return render(request,'sucsees.html',{'doctor' :doctor})

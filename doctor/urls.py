@@ -14,6 +14,12 @@ urlpatterns = [
     path('', views.get_homePage, name='home'), 
     path('after_register',views.submit_Doctor, name = 'submit_Doctor'),
     path('homePage',views.Conect,name = 'Conect'),
+    path('homePage/<int:user_id>',views.index,name = 'index'),
+    path('homePage/<int:user_id>',views.homePageD,name = 'homePageD'),
+    path('homePage/patientQ/<int:user_id>',views.patientQ,name = 'patientQ'),
+    path('homePage/addPatientSucc/<int:user_id>',views.addPatientSucc,name = 'addPatientSucc'),
 
+
+    
 
 ]
