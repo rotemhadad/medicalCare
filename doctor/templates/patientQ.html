@@ -21,9 +21,9 @@ body{
 .wrapper{
   max-width: 400px;
   width: 100%;
-  height: 550px;
+  height: 800px;
   position: absolute;
-  top: 50%;
+  top: 80%;
   left:50%;
   transform: translate(-50%,-50%);
   background: #dde1e7;
@@ -68,19 +68,47 @@ body{
 }
 
 .wrapper .input_field{
-  margin-bottom: 25px;
-  margin-top: 28px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .wrapper .input_field .input{
   width: 100%;
+  text-align: center;
   border: none;
   background: #dde9ecb7;
   color: black;
   font-family: sans-serif;
   border: 2px solid rgba(13, 162, 231, 0.596);
   font-size: 14px;
-  padding: 17px;
+  padding: 10px;
+  border-radius: 10px;
+} 
+
+.wrapper .input_fieldr .input{
+  width: 50%;
+  text-align: center;
+  border: none;
+  background: #dde9ecb7;
+  color: black;
+  float:right;
+  font-family: sans-serif;
+  border: 2px solid rgba(13, 162, 231, 0.596);
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+} 
+.wrapper .input_fieldl .input{
+  width: 50%;
+  text-align: center;
+  border: none;
+  background: #dde9ecb7;
+  color: black;
+  float:left;
+  font-family: sans-serif;
+  border: 2px solid rgba(13, 162, 231, 0.596);
+  font-size: 14px;
+  padding: 10px;
   border-radius: 10px;
 } 
 a#id3 {
@@ -109,7 +137,7 @@ a#id3 {
   margin: 5px 614px;
   transition-duration: 0.4s;
   cursor: pointer;
-  margin-top: 300px;
+  margin-top: 10px;
   margin-left: -0%;
 
 }
@@ -140,58 +168,117 @@ a#id3 {
   background: #b8bec7;
 }
 
+
   </style>
 </head>
 <body>
-<div class="wrapper">
-    <div class="container">
+<div class="wrapper" >
+    <div class="container" >
         <div class="tabs">
-        <form action = "{% url 'doctor:index' doctor.user_id %}" method= "post" enctype="multipart/form-data">
+        <form action = "{% url 'doctor:patientQ' doctor.user_id %}" method= "post" enctype="multipart/form-data">
 
     {% csrf_token %}
 
   <h3 align="center">אנא הזן פרטי מטופל</h3>
-  <div class="form-group">
-    <input type="text" class="form-control" name = "name" id="name" value="{{ request.GET.name }}"  placeholder="שם פרטי" required>
-    <label>שם פרטי</label>
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name = "lastname" id="lastName" value="{{ request.GET.lastName }}"  placeholder="שם משפחה" required>
-    <label>שם משפחה</label>
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" name = "age" id="age" value="{{ request.GET.age }}"  placeholder="גיל" required>
-    <label>גיל</label>
-  </div>
-    <div class="form-group">
-    <input type="text" class="form-control" name = "patient_id" id="patient_id" value="{{ request.GET.patient_id }}"  placeholder="תעודת זהות" required>
-    <label>תעודת זהות</label>
-  </div>
-  
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" name = "smoke" id="smoke" value="{{ request.GET.smoke }}">
-    <label class="form-check-label">?האם מעשן</label>
-  </div>
 
-   <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" name = "eastCommunity" id="eastCommunity" value="{{ request.GET.eastCommunity }}">
-    <label class="form-check-label">?האם מעדות המזרח</label>
-  </div>
+    <div class="input_field">
+        <input type="text" placeholder="שם פרטי" class="input" name="name" id = "name" value="{{ request.GET.name }}"required >
+    </div>
 
-     <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" name = "pregancy" id="pregancy" value="{{ request.GET.pregancy }}">
-    <label class="form-check-label">?האם בהריון</label>
-  </div>
+    <div class="input_field">
+        <input type="text" placeholder="שם משפחה" class="input" name="lastName" id = "lastName" value="{{ request.GET.lastName }}"required >
+    </div>
+
+    <div class="input_field">
+        <input type="text" placeholder="גיל" class="input" name="age" id = "age" value="{{ request.GET.age }}"required >
+    </div>
+
+    <div class="input_field">
+        <input type="text" placeholder="תעודת זהות" class="input" name="patient_id" id = "patient_id" value="{{ request.GET.patient_id }}"required >
+    </div>
+
+    <p>
+    <label for="d_box2"><input type="radio" name="gender" value="woman" checked="checked" id="d_box2">   גבר    </label>
+    <label for="l_box1"><input type="radio" name="gender" value="man" id="l_box1">  אישה     </label>
+    <p>
+    <label for="d_box2"><input type="radio" name="smoke" value="True" checked="checked" id="d_box2">   לא מעשן    </label>
+    <label for="l_box1"><input type="radio" name="smoke" value="False" id="l_box1">  מעשן     </label>
+    <p>
+    <label for="d_box2"><input type="radio" name="eastCommunity" value="True" checked="checked" id="d_box2">   לא מעדות המזרח    </label>
+    <label for="l_box1"><input type="radio" name="eastCommunity" value="False" id="l_box1">  מעדות המזרח     </label>
+    <p>
+    <label for="d_box2"><input type="radio" name="pregancy" value="True" checked="checked" id="d_box2">   לא בהריון    </label>
+    <label for="l_box1"><input type="radio" name="pregancy" value="False" id="l_box1">  בהריון     </label>
+    <p>
+    <label for="d_box2"><input type="radio" name="ethiopian" value="True" checked="checked" id="d_box2">   לא אתיופי    </label>
+    <label for="l_box1"><input type="radio" name="ethiopian" value="False" id="l_box1">  אתיופי     </label>
+    <p>
+    <label for="d_box2"><input type="radio" name="medicine" value="True" checked="checked" id="d_box2">   לא נוטל תרופות נוספות    </label>
+    <label for="l_box1"><input type="radio" name="medicine" value="False" id="l_box1">  נוטל תרופות נוספות     </label>
+    
 
 
-    <label for="l_box1"><input type="radio" name="gender" value="man" id="l_box1">  גבר     </label>
-    <label for="d_box2"><input type="radio" name="gender" value="woman" id="d_box2">   אישה    </label>
+        <div class="input_field">
+        <input type="file"
+            title="Upload excel file"
+            name="excel_file"
+            style="border: 1px solid black; padding: 5px;"
+           >
+        </div>
+        <p>
+        {% include 'messages.html' %}
+        <h3 align="center">מלא פרטי בדיקות דם<h3>
+        <h6 align="center">שים לב! במידה והעלת קובץ הוא יבחר כמילוי השדות<h6>
+
+        <div class="input_fieldl" >
+        <input type="text" placeholder="WBC" class="input" name="WBC" id = "WBC" value="{{ request.GET.WBC }}" >
+        </div>
+
+        <div class="input_fieldr" >
+        <input type="text" placeholder="Neut" class="input" name="Neut" id = "Neut" value="{{ request.GET.Neut }}" >
+        </div>
+
+        <div class="input_fieldl" >
+        <input type="text" placeholder="Lymph" class="input" name="Lymph" id = "Lymph" value="{{ request.GET.Lymph }}" >
+        </div>
+
+        <div class="input_fieldr" >
+        <input type="text" placeholder="RBC" class="input" name="RBC" id = "RBC" value="{{ request.GET.RBC }}" >
+        </div>
+
+        <div class="input_fieldl" >
+        <input type="text" placeholder="HCT" class="input" name="HCT" id = "HCT" value="{{ request.GET.HCT }}" >
+        </div>
+
+        <div class="input_fieldr" >
+        <input type="text" placeholder="Urea" class="input" name="Urea" id = "Urea" value="{{ request.GET.Urea }}" >
+        </div>
+
+        <div class="input_fieldl" >
+        <input type="text" placeholder="Hb" class="input" name="Hb" id = "Hb" value="{{ request.GET.Hb }}" >
+        </div>
+        
+        <div class="input_fieldr" >
+        <input type="text" placeholder="Crtn" class="input" name="Crtn" id = "Crtn" value="{{ request.GET.Crtn }}" >
+        </div>
+
+        <div class="input_fieldl" >
+        <input type="text" placeholder="Iron" class="input" name="Iron" id = "Iron" value="{{ request.GET.Iron }}" >
+        </div>
+        
+        <div class="input_fieldr" >
+        <input type="text" placeholder="HDL" class="input" name="HDL" id = "HDL" value="{{ request.GET.HDL }}" >
+        </div>
+
+        <div class="input_fieldr" >
+        <input type="text" placeholder="AP" class="input" name="AP" id = "AP" value="{{ request.GET.AP }}" >
+        </div>
+        
 
 
-
-  <button type="index" class="btn btn-primary">Submit</button>
-  
-        </form>
+        <button type="patientQ" class="btn">Submit</button>
+    </form>
+    
         </div>
     </div>
 </div>

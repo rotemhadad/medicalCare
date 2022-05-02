@@ -136,33 +136,10 @@ body{
         <h3 align=center> {{doctor.name}} ברוך הבא</h3>
 
 
-        <form action="{% url 'doctor:index' doctor.user_id %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-             <div class="input_field">
-            <input type="file"
-                   title="Upload excel file"
-                   name="excel_file"
-                   style="border: 1px solid black; padding: 5px;"
-                   required="required">
-                   </div>
-            <p>
-            <input type="submit"
-                   value="Upload"
-                   style="border: 1px solid green; padding:5px; border-radius: 2px; cursor: pointer;">
-        </form>
-
+        
       <div>
             <a class="btn btn-primary" href="/homePage/patientQ/{{doctor.user_id}}" role="button">שאלות למטופל</a>
       </div>
-
-        {% for row in excel_data %}
-            {% for cell in row %}
-                {{ cell }}&nbsp;&nbsp;
-            {% endfor %}
-            <br>
-        {% endfor %}
-        </div>
-        </div>
        
     </body>
 </html>

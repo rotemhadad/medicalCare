@@ -8,7 +8,7 @@ from django.forms.formsets import formset_factory
 from django.shortcuts import render,redirect,get_object_or_404 
 from django.http import HttpResponse ,Http404
 import openpyxl
-from doctor.models import Doctor, Patient
+from doctor.models import BloodTest, Doctor, Patient
 from datetime import datetime,timedelta,date
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -115,7 +115,7 @@ def Conect(request): #conect the doctor to homepage
 
 
 
-def index(request,user_id):
+def excelUpload(request,user_id):
     doctor = Doctor.objects.get(user_id = user_id)
     if "GET" == request.method:
         return render(request, 'home.html', {'doctor':doctor})
@@ -142,7 +142,7 @@ def index(request,user_id):
         print(active_sheet)
 
         # reading a cell
-        print(worksheet["A1"].value)
+        print(worksheet["A1"].value) #print in terminal
 
         excel_data = list()
         # iterating over the rows and getting value from each cell in row
@@ -153,7 +153,7 @@ def index(request,user_id):
                 print(cell.value)
             excel_data.append(row_data)
 
-        return render(request, 'home.html', {"excel_data":excel_data, 'doctor':doctor})
+        return render(request, 'patientQ.html', {"excel_data":excel_data, 'doctor':doctor})
 
        
 
@@ -171,11 +171,82 @@ def patientQ(request,user_id):
     doctor = Doctor.objects.get(user_id = user_id)
     patient_id=request.POST.get('patient_id')
     gender = request.POST.get("gender")
+    age = request.POST.get("age")
+    name = request.POST.get("name")
+    lastName = request.POST.get("lastName")
     smoke = request.POST.get("smoke")
+    medicine = request.POST.get("medicine")
+    eastCommunity = request.POST.get("eastCommunity")
+    ethiopian = request.POST.get("ethiopian")
+    pregnancy = request.POST.get("pregnancy")
+    lst=[smoke,medicine,eastCommunity,ethiopian,pregnancy]
+    for i in lst:
+        if (i=="True"):
+            i=True
+        else:
+            i=False
+            
+    #excel file
+    bloodTest=BloodTest(WBC=None,Neut=None,Lymph=None,RBC=None,HCT=None,Urea=None,Hb=None,Crtn=None,Iron=None,HDL=None,AP=None)
 
-    patient = Patient(patient_id=patient_id,gender=gender,smoke=smoke)
+
+    excel_file = request.FILES.get("excel_file",None)
+    excel_data=None
+    if (excel_file!=None):
+        wb = openpyxl.load_workbook(excel_file)
+        # getting all sheets
+        sheets = wb.sheetnames
+        print(sheets)
+
+        # getting a particular sheet
+        worksheet = wb["גיליון1"]
+        # print(worksheet)
+
+        # getting active sheet
+        active_sheet = wb.active
+        # print(active_sheet)
+
+        WBC = worksheet["B1"].value
+        Neut = worksheet["B2"].value
+        Lymph = worksheet["B3"].value  
+        RBC = worksheet["B4"].value  
+        HCT = worksheet["B5"].value  
+        Urea = worksheet["B6"].value  
+        Hb = worksheet["B7"].value  
+        Crtn = worksheet["B8"].value         
+        Iron = worksheet["B9"].value  
+        HDL = worksheet["B10"].value  
+        AP = worksheet["B11"].value  
+        
+        bloodTest=BloodTest(WBC=WBC,Neut=Neut,Lymph=Lymph,RBC=RBC,HCT=HCT,Urea=Urea,Hb=Hb,Crtn=Crtn,Iron=Iron,HDL=HDL,AP=AP)
+        
+    else:
+        WBC = request.POST.get('WBC')
+        Neut = request.POST.get('Neut')
+        Lymph = request.POST.get('Lymph') 
+        RBC = request.POST.get('RBC')
+        HCT = request.POST.get('HCT')
+        Urea = request.POST.get('Urea') 
+        Hb = request.POST.get('Hb')
+        Crtn = request.POST.get('Crtn')       
+        Iron = request.POST.get('Iron')
+        HDL = request.POST.get('HDL')
+        AP = request.POST.get('AP')
+        if(WBC=="" or Neut=="" or Lymph=="" or RBC=="" or HCT=="" or Urea=="" or
+            Hb=="" or Crtn=="" or Iron=="" or HDL=="" or AP==""):
+                messages.error(request, 'אנא מלא את כל הערכים')
+
+        else:
+            bloodTest=BloodTest(WBC=WBC,Neut=Neut,Lymph=Lymph,RBC=RBC,HCT=HCT,Urea=Urea,Hb=Hb,Crtn=Crtn,Iron=Iron,HDL=HDL,AP=AP)
+    bloodTest.save()
+    patient = Patient(patient_id=patient_id, name=name, lastName= lastName,gender=gender,age=age,
+    smoke=smoke, pregnancy=pregnancy, ethiopian=ethiopian, eastCommunity=eastCommunity,bloodTest=bloodTest)
     patient.save()
     return render(request,'patientQ.html', {'doctor':doctor,'patient':patient})
+
+
+
+
 
 def addPatientSucc(request,user_id):
     doctor = Doctor.objects.get(user_id = user_id)
