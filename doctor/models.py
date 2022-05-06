@@ -31,7 +31,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=8, null = True, default = None)
     lastName = models.CharField(max_length=8, null = True, default = None)
     patient_id = models.CharField(max_length=9,null = True,default = None)
-    age = models.CharField(max_length=9,null = True,default = None)
+    age = models.CharField(max_length=9,null = True,default = "0")
     gender = models.CharField(max_length=9,null = True,default = None)
     smoke = models.BooleanField(null= True,default = False)
     eastCommunity = models.BooleanField(null= True,default = False)
@@ -39,8 +39,8 @@ class Patient(models.Model):
     ethiopian =  models.BooleanField(null= True,default = False)
     medicine = models.BooleanField(null= True,default = False) #before the meeting
     bloodTest = models.ForeignKey(BloodTest, on_delete = models.CASCADE,null= True,default = None)
-    diagnose = models.CharField(max_length=300,null = True,default = None)
-    treatment = models.CharField(max_length=500,null = True,default = None)
+    diagnose = models.TextField(max_length=1000,null = True,default = None)
+    treatment = models.TextField(max_length=1000,null = True,default = None)
 
 
     def __str__(self):
