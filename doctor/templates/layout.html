@@ -1,5 +1,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
  @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 *{
@@ -9,21 +13,19 @@
   outline: none;
   list-style: none;
   text-decoration: none;
-  font-family: 'Tahoma', sans-serif;
+  font-family: 'Assistant';
 }
 
 body{
   background: #1bb1ec;
+  direction: rtl;
+  text-align: center;
 }
 
 .wrapper{
-  max-width: 400px;
   width: 100%;
-  height: 830px;
-  position: absolute;
-  top: 80%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  margin: 50px auto;
+  max-width: 450px;
   background: #dde1e7;
   box-shadow: -3px -3px 7px rgba(68, 75, 87, 0.356),
               2px 2px 5px rgba(68, 75, 87, 0.356);
@@ -33,108 +35,98 @@ body{
   padding: 35px 40px;
 }
 
-.wrapper .tabs ul{
-  width: 100%;
-  margin-bottom:15px;
-   border: 2px solid #1bb1ec;
+h3 {
+    font-size: 28px;
+}
+
+.labels_box {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+.labels_left, .labels_right{
   display: flex;
-}
-    
-.wrapper .tabs ul li{
-  width: 50%;
-  padding: 15px 0;
-  text-align: center;
-  font-size: 14px;
-  color: #fefffe;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background: #1bb1ec;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.5s ease;
+    flex-direction: column;
+    text-align: right;
 }
 
-.wrapper .tabs ul li.active{
-  background: #e3e4e6;
-  color: rgb(0, 0, 0);
- 
+.form_btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.wrapper .input_field{
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.wrapper .input_field .input{
-  width: 100%;
-  text-align: center;
-  border: none;
-  background: #dde9ecb7;
-  color: black;
-  font-family: sans-serif;
-  border: 2px solid rgba(13, 162, 231, 0.596);
-  font-size: 14px;
-  padding: 10px;
-  border-radius: 10px;
-  font-family: 'Tahoma';
-} 
-
-.wrapper .input_fieldr .input{
-  width: 50%;
-  text-align: center;
-  border: none;
-  background: #dde9ecb7;
-  color: black;
-  float:right;
-  font-family: sans-serif;
-  border: 2px solid rgba(13, 162, 231, 0.596);
-  font-size: 14px;
-  padding: 10px;
-  border-radius: 10px;
-  font-family: 'Tahoma';
-} 
-.wrapper .input_fieldl .input{
-  width: 50%;
-  text-align: center;
-  border: none;
-  background: #dde9ecb7;
-  color: black;
-  float:left;
-  font-family: sans-serif;
-  border: 2px solid rgba(13, 162, 231, 0.596);
-  font-size: 14px;
-  padding: 10px;
-  border-radius: 10px;
-  font-family: 'Tahoma';
-} 
-
-.wrapper .btn{
-
+.btn{
   border: none;
   color: black;
-  padding: 16px 32px;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
-  margin: 5px 614px;
   transition-duration: 0.4s;
-  cursor: pointer;
-  margin-top: 10px;
-  margin-left: -0%;
-
+  width: 135px;
+    height: 35px;
+    margin: 5px;
 }
 
-.wrapper .btn:hover{
+input[type="file"]::file-selector-button {
+    border: 0;
+    padding: 5px 20px;
+    margin-top: 10px;
+    transition: all 0.4s;
+}
+
+.btn:hover, input[type="file"]::file-selector-button:hover{
  background: #1b8cce;
+
 }
 
-.wrapper .btn a{
-  color: rgb(255, 255, 255);
-  display: block;
-  font-size: 16px;
-  font-family: sans-serif;
+.input_s1{
+    width: 100%;
+    height: 39px;
+    margin: 2px auto;
+    padding: 0 11px;
+    background: #dde9ecb7;
+    color: black;
+    border-radius: 8px;
+    border: 2px solid rgba(13, 162, 231, 0.596);
+    box-shadow: -1px 5px 12px rgb(0 0 0 / 5%);
+}
+
+.input_s2 {
+    max-width: 30%;
+    padding: 5px 5px;
+    margin-top: 4px;
+    background: #dde9ecb7;
+    color: black;
+    border-radius: 8px;
+    border: 2px solid rgba(13, 162, 231, 0.596);
+}
+
+/* LOGIN PAGE */
+ul.login_tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+ul.login_tabs li {
+    background: white;
+    padding: 5px 21px;
+    border: 1px solid #1bb1ec;
+    width: 100%;
+    transition: 0.4s all;
+}
+
+.active {
+    background: #1bb1ec !important;
+    color: white;
+    font-weight: bold;
+}
+
+.sign_in_btn{
+  width: 100%;
+    margin: 15px 0 0;
+    border-radius: 10px;
 }
 
   </style>

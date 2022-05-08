@@ -3,113 +3,65 @@
   
 <body>
 <div class="wrapper" >
-    <div class="container" >
+    <div class="container">
         <div class="tabs">
-        <form action = "{% url 'doctor:patientQ' doctor.user_id %}" method= "post" enctype="multipart/form-data">
 
-    {% csrf_token %}
+            <h3>אנא הזן פרטי מטופל</h3>
 
-  <h3 align="center">אנא הזן פרטי מטופל</h3>
+            <form action = "{% url 'doctor:patientQ' doctor.user_id %}" method= "post" enctype="multipart/form-data">
 
-    <div class="input_field">
-        <input type="text" placeholder="שם פרטי" class="input" name="name" id = "name" value="{{ request.GET.name }}"required >
-    </div>
+                {% csrf_token %}            
+                <input type="text" placeholder="שם פרטי" class="input_s1" name="name" id = "name" value="{{ request.GET.name }}" required />
+                <input type="text" placeholder="שם משפחה" class="input_s1" name="lastName" id = "lastName" value="{{ request.GET.lastName }}" required />
+                <input type="text" placeholder="גיל" class="input_s1" name="age" id = "age" value="{{ request.GET.age }}" required />
+                <input type="text" placeholder="תעודת זהות" class="input_s1" name="patient_id" id = "patient_id" value="{{ request.GET.patient_id }}" required />
 
-    <div class="input_field">
-        <input type="text" placeholder="שם משפחה" class="input" name="lastName" id = "lastName" value="{{ request.GET.lastName }}"required >
-    </div>
-
-    <div class="input_field">
-        <input type="text" placeholder="גיל" class="input" name="age" id = "age" value="{{ request.GET.age }}"required >
-    </div>
-
-    <div class="input_field">
-        <input type="text" placeholder="תעודת זהות" class="input" name="patient_id" id = "patient_id" value="{{ request.GET.patient_id }}"required >
-    </div>
-
-    <p>
-    <label for="d_box2"><input type="radio" name="gender" value="woman" checked="checked" id="d_box2">   גבר    </label>
-    <label for="l_box1"><input type="radio" name="gender" value="man" id="l_box1">  אישה     </label>
-    <p>
-    <label for="d_box2"><input type="radio" name="smoke" value="True" checked="checked" id="d_box2">   לא מעשן    </label>
-    <label for="l_box1"><input type="radio" name="smoke" value="False" id="l_box1">  מעשן     </label>
-    <p>
-    <label for="d_box2"><input type="radio" name="eastCommunity" value="True" checked="checked" id="d_box2">   לא מעדות המזרח    </label>
-    <label for="l_box1"><input type="radio" name="eastCommunity" value="False" id="l_box1">  מעדות המזרח     </label>
-    <p>
-    <label for="d_box2"><input type="radio" name="pregancy" value="True" checked="checked" id="d_box2">   לא בהריון    </label>
-    <label for="l_box1"><input type="radio" name="pregancy" value="False" id="l_box1">  בהריון     </label>
-    <p>
-    <label for="d_box2"><input type="radio" name="ethiopian" value="True" checked="checked" id="d_box2"> לא  </label>
-    <label for="l_box1"><input type="radio" name="ethiopian" value="False" id="l_box1">  בן לעדה האתיופית     </label>
-    <p>
-    <label for="d_box2"><input type="radio" name="medicine" value="True" checked="checked" id="d_box2">  לא     </label>
-    <label for="l_box1"><input type="radio" name="medicine" value="False" id="l_box1">  נוטל תרופות נוספות     </label>
-    
-        <div class="input_field">
-        <input type="file"
-            class="file-custom"
-            title="Upload excel file"
-            name="excel_file"
-           >
-        </div>
-        <p>
-
-        {% include 'messages.html' %}
-        <h3 align="center">מלא פרטי בדיקות דם<h3>
-        <h6 align="center">שים לב! במידה והעלת קובץ הוא יבחר כמילוי השדות<h6>
-        <br>
-        <div class="input_fieldl" >
-        <input type="text" placeholder="WBC" class="input" name="WBC" id = "WBC" value="{{ request.GET.WBC }}" >
-        </div>
-
-        <div class="input_fieldr" >
-        <input type="text" placeholder="Neut" class="input" name="Neut" id = "Neut" value="{{ request.GET.Neut }}" >
-        </div>
-
-        <div class="input_fieldl" >
-        <input type="text" placeholder="Lymph" class="input" name="Lymph" id = "Lymph" value="{{ request.GET.Lymph }}" >
-        </div>
-
-        <div class="input_fieldr" >
-        <input type="text" placeholder="RBC" class="input" name="RBC" id = "RBC" value="{{ request.GET.RBC }}" >
-        </div>
-
-        <div class="input_fieldl" >
-        <input type="text" placeholder="HCT" class="input" name="HCT" id = "HCT" value="{{ request.GET.HCT }}" >
-        </div>
-
-        <div class="input_fieldr" >
-        <input type="text" placeholder="Urea" class="input" name="Urea" id = "Urea" value="{{ request.GET.Urea }}" >
-        </div>
-
-        <div class="input_fieldl" >
-        <input type="text" placeholder="Hb" class="input" name="Hb" id = "Hb" value="{{ request.GET.Hb }}" >
-        </div>
-        
-        <div class="input_fieldr" >
-        <input type="text" placeholder="Crtn" class="input" name="Crtn" id = "Crtn" value="{{ request.GET.Crtn }}" >
-        </div>
-
-        <div class="input_fieldl" >
-        <input type="text" placeholder="Iron" class="input" name="Iron" id = "Iron" value="{{ request.GET.Iron }}" >
-        </div>
-        
-        <div class="input_fieldr" >
-        <input type="text" placeholder="HDL" class="input" name="HDL" id = "HDL" value="{{ request.GET.HDL }}" >
-        </div>
-
-        <div class="input_fieldr" >
-        <input type="text" placeholder="AP" class="input" name="AP" id = "AP" value="{{ request.GET.AP }}" >
-        </div>
-        
+                <div class="labels_box">
+                    <div class="labels_right">
+                        <label for="d_box2"><input type="radio" name="gender" value="woman" checked="checked" id="d_box2">אישה</label>
+                        <label for="d_box2"><input type="radio" name="smoke" value="True" checked="checked" id="d_box2">לא מעשן</label>
+                        <label for="d_box2"><input type="radio" name="eastCommunity" value="True" checked="checked" id="d_box2">לא מעדות המזרח</label>
+                        <label for="d_box2"><input type="radio" name="pregnancy" value="True" checked="checked" id="d_box2">לא בהריון</label>
+                        <label for="d_box2"><input type="radio" name="ethiopian" value="True" checked="checked" id="d_box2">לא</label>
+                    </div>
+                    <div class="labels_left">
+                        <label for="l_box1"><input type="radio" name="gender" value="man" id="l_box1">גבר</label>
+                        <label for="l_box1"><input type="radio" name="smoke" value="False" id="l_box1">מעשן</label>
+                        <label for="l_box1"><input type="radio" name="eastCommunity" value="False" id="l_box1">מעדות המזרח</label>
+                        <label for="l_box1"><input type="radio" name="pregnancy" value="False" id="l_box1">בהריון</label>
+                        <label for="l_box1"><input type="radio" name="ethiopian" value="False" id="l_box1">בן לעדה האתיופית</label>
+                    </div>
+                </div>
 
 
-        <button type="patientQ" class="btn">אישור</button>
-    </form>
-    
+                {% include 'messages.html' %}
+                
+                <h3 style="margin-top: 15px;">מלא פרטי בדיקות דם</h3>
+                <h6>שים לב! במידה והעלת קובץ הוא יבחר כמילוי השדות</h6>
+                
+                <br />
+
+                <input type="text" placeholder="WBC" class="input_s2" name="WBC" id = "WBC" value="{{ request.GET.WBC }}" />
+                <input type="text" placeholder="Neut" class="input_s2" name="Neut" id = "Neut" value="{{ request.GET.Neut }}" />
+                <input type="text" placeholder="Lymph" class="input_s2" name="Lymph" id = "Lymph" value="{{ request.GET.Lymph }}" />
+                <input type="text" placeholder="RBC" class="input_s2" name="RBC" id = "RBC" value="{{ request.GET.RBC }}" />
+                <input type="text" placeholder="HCT" class="input_s2" name="HCT" id = "HCT" value="{{ request.GET.HCT }}" />
+                <input type="text" placeholder="Urea" class="input_s2" name="Urea" id = "Urea" value="{{ request.GET.Urea }}" />
+                <input type="text" placeholder="Hb" class="input_s2" name="Hb" id = "Hb" value="{{ request.GET.Hb }}" />
+                <input type="text" placeholder="Crtn" class="input_s2" name="Crtn" id = "Crtn" value="{{ request.GET.Crtn }}" />
+                <input type="text" placeholder="Iron" class="input_s2" name="Iron" id = "Iron" value="{{ request.GET.Iron }}" />
+                <input type="text" placeholder="HDL" class="input_s2" name="HDL" id = "HDL" value="{{ request.GET.HDL }}" />
+                <input type="text" placeholder="AP" class="input_s2" name="AP" id = "AP" value="{{ request.GET.AP }}" />
+                <div class="input_field">
+                    <input type="file" class="file-custom" title="Upload excel file" name="excel_file">
+                </div>
+                <div class="form_btn">
+                    <button class="btn"><a href="/homePage/{{doctor.user_id}}" role="button">חזור</a></button>
+                    <button type="patientQ" class="btn">שמור פרטים</button>
+                </div>
+            </form>
+            
         </div>
     </div>
 </div>
-
 </body>

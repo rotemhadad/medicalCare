@@ -4,76 +4,54 @@
 
   <div class="wrapper">
     <div class="container">
-        <div class="tabs">
-          <ul>
-            <li class="sign_in_li">התחבר</li>
-            <li class="sign_up_li">הירשם</li>
-          </ul>
-        </div>
-      
+        <ul class="login_tabs">
+          <li class="sign_in_li">התחבר</li>
+          <li class="sign_up_li">הירשם</li>
+        </ul>
+
         <div class="sign_in">
-        <form action = "{% url 'doctor:Conect' %}" method= "post">
+          <form action = "{% url 'doctor:Conect' %}" method= "post">
+            {% csrf_token %}
+            {% include 'messages.html' %}
 
-        {% csrf_token %}
-        {% include 'messages.html' %}
-
-          <div class="input_field">
-            <input type="text" placeholder="שם משתמש" class="input" name="namein" id = "namein" value="{{ request.GET.namein }}"  >
-          </div>
-          <div class="input_field">
-            <input type="password" placeholder="סיסמה" class="input" name="passwordin" id = "passwordin" value="{{ request.GET.passwordin }}" >
-          </div>
-        <button type="Conect" class="btn">התחבר</button>  	
-         </form>
+            <input type="text" placeholder="שם משתמש" class="input_s1" name="namein" id = "namein" value="{{ request.GET.namein }}"  >
+            <input type="password" placeholder="סיסמה" class="input_s1" name="passwordin" id = "passwordin" value="{{ request.GET.passwordin }}" >
+            <button type="Conect" class="btn sign_in_btn">התחבר</button>  	
+          </form>
         </div>
         
         <div class="sign_up">
           <form action = "{% url 'doctor:submit_Doctor' %}" method= "post">
+            {% csrf_token %}
 
+            <input type="text" placeholder="שם משתמש" class="input_s1" name="nameup" id = "nameup" value="{{ request.GET.nameup }}"required >
+            <input type="text" placeholder="תעודת זהות" class="input_s1" name="user_idup" id = "user_idup" value="{{ request.GET.user_idup }}" required>
+            <input type="password" placeholder="סיסמה" class="input_s1" name="passwordup" value="{{ request.GET.passwordup }}" required>
+            <input type="password" placeholder="אימות סיסמה" class="input_s1" name="password2up" value="{{ request.GET.password2up }}" required>
+            <button type="submit_Doctor" class="btn sign_in_btn">הירשם</button> 
+          </form>
+        </div>
 
-        {% csrf_token %}
-
-      <div class="input_field">
-        <input type="text" placeholder="שם משתמש" class="input" name="nameup" id = "nameup" value="{{ request.GET.nameup }}"required >
-      </div>
-      <div class="input_field">
-
-        <input type="text" placeholder="תעודת זהות" class="input" name="user_idup" id = "user_idup" value="{{ request.GET.user_idup }}" required>
-      </div>
-      <div class="input_field">
-        <input type="password" placeholder="סיסמה" class="input" name="passwordup" value="{{ request.GET.passwordup }}" required>
-      </div>
-      <div class="input_field">
-        <input type="password" placeholder="אימות סיסמה" class="input" name="password2up" value="{{ request.GET.password2up }}" required>
-      </div>
-
-        <button type="submit_Doctor" class="btn">הירשם</button> 
-      </form>
- 	
     </div>
-
-       
-      
-    </div>
-    </div>
+  </div>
 <script>
- $(".sign_up").hide();
-$(".sign_in_li").addClass("active");
+  $(".sign_up").hide();
+  $(".sign_in_li").addClass("active");
 
-$(".sign_up_li").click(function(){
-  $(this).addClass("active");
-  $(".sign_in_li").removeClass("active");
-  $(".sign_up").show();
-   $(".sign_in").hide();
-})
+  $(".sign_up_li").click(function(){
+    $(this).addClass("active");
+    $(".sign_in_li").removeClass("active");
+    $(".sign_up").show();
+    $(".sign_in").hide();
+  })
 
-$(".sign_in_li").click(function(){
-  $(this).addClass("active");
-  $(".sign_up_li").removeClass("active");
-  $(".sign_in").show();
-   $(".sign_up").hide();
-})
+  $(".sign_in_li").click(function(){
+    $(this).addClass("active");
+    $(".sign_up_li").removeClass("active");
+    $(".sign_in").show();
+    $(".sign_up").hide();
+  })
 </script>
-    </form>   
+
 </body>
 </html>
