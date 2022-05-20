@@ -21,6 +21,5 @@ urlpatterns = [
     path('homePage/patientQ/<int:user_id>',views.patientQ,name = 'patientQ'),
     #path('homePage/addPatientSucc/<int:user_id>',views.addPatientSucc,name = 'addPatientSucc'),
     path('export_users_xls/', views.export_users_xls),
-    
 
 ]
