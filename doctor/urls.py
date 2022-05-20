@@ -19,7 +19,6 @@ urlpatterns = [
     path('homePage',views.Conect,name = 'Conect'),
     path('homePage/<int:user_id>',views.homePageD,name = 'homePageD'),
     path('homePage/patientQ/<int:user_id>',views.patientQ,name = 'patientQ'),
-    #path('homePage/addPatientSucc/<int:user_id>',views.addPatientSucc,name = 'addPatientSucc'),
     path('export_users_xls/', views.export_users_xls),
 
 ]

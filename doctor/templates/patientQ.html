@@ -14,22 +14,22 @@
                 <input type="text" placeholder="שם פרטי" class="input_s1" name="name" id = "name" value="{{ request.GET.name }}" required />
                 <input type="text" placeholder="שם משפחה" class="input_s1" name="lastName" id = "lastName" value="{{ request.GET.lastName }}" required />
                 <input type="text" placeholder="גיל" class="input_s1" name="age" id = "age" value="{{ request.GET.age }}" required />
-                <input type="text" placeholder="תעודת זהות" class="input_s1" name="patient_id" id = "patient_id" value="{{ request.GET.patient_id }}" required />
+                <input pattern="[0-9]{9,9}" placeholder="תעודת זהות(כולל ספרת ביקורת)" minlength="9" class="input_s1" name="patient_id" id = "patient_id" value="{{ request.GET.patient_id }}" required />
 
                 <div class="labels_box">
                     <div class="labels_right">
                         <label for="d_box2"><input type="radio" name="gender" value="woman" checked="checked" id="d_box2">אישה</label>
-                        <label for="d_box2"><input type="radio" name="smoke" value="True" checked="checked" id="d_box2">לא מעשן</label>
-                        <label for="d_box2"><input type="radio" name="eastCommunity" value="True" checked="checked" id="d_box2">לא מעדות המזרח</label>
-                        <label for="d_box2"><input type="radio" name="pregnancy" value="True" checked="checked" id="d_box2">לא בהריון</label>
-                        <label for="d_box2"><input type="radio" name="ethiopian" value="True" checked="checked" id="d_box2">לא</label>
+                        <label for="d_box2"><input type="radio" name="smoke" value="False" checked="checked" id="d_box2">לא מעשן</label>
+                        <label for="d_box2"><input type="radio" name="eastCommunity" value="False" checked="checked" id="d_box2">לא מעדות המזרח</label>
+                        <label for="d_box2"><input type="radio" name="pregnancy" value="False" checked="checked" id="d_box2">לא בהריון</label>
+                        <label for="d_box2"><input type="radio" name="ethiopian" value="False" checked="checked" id="d_box2">לא</label>
                     </div>
                     <div class="labels_left">
                         <label for="l_box1"><input type="radio" name="gender" value="man" id="l_box1">גבר</label>
-                        <label for="l_box1"><input type="radio" name="smoke" value="False" id="l_box1">מעשן</label>
-                        <label for="l_box1"><input type="radio" name="eastCommunity" value="False" id="l_box1">מעדות המזרח</label>
-                        <label for="l_box1"><input type="radio" name="pregnancy" value="False" id="l_box1">בהריון</label>
-                        <label for="l_box1"><input type="radio" name="ethiopian" value="False" id="l_box1">בן לעדה האתיופית</label>
+                        <label for="l_box1"><input type="radio" name="smoke" value="True" id="l_box1">מעשן</label>
+                        <label for="l_box1"><input type="radio" name="eastCommunity" value="True" id="l_box1">מעדות המזרח</label>
+                        <label for="l_box1"><input type="radio" name="pregnancy" value="True" id="l_box1">בהריון</label>
+                        <label for="l_box1"><input type="radio" name="ethiopian" value="True" id="l_box1">בן לעדה האתיופית</label>
                     </div>
                 </div>
 
