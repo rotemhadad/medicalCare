@@ -24,7 +24,7 @@
           <form action = "{% url 'doctor:submit_Doctor' %}" method= "post">
             {% csrf_token %}
 
-            <input pattern=".{6,8}" placeholder="שם משתמש (אורך 6-8,בעל לפחות 2 ספרות וכל השאר אותיות)" class="input_s1" name="nameup" id = "nameup" value="{{ request.GET.nameup }}"required >
+            <input pattern=".{6,8}" placeholder="שם משתמש (אורך 6-8,בעל לכל היותר 2 ספרות וכל השאר אותיות)" class="input_s1" name="nameup" id = "nameup" value="{{ request.GET.nameup }}"required >
             <input pattern="[0-9]{9,9}" placeholder="תעודת זהות (כולל ספרת ביקורת)" class="input_s1" name="user_idup" id = "user_idup" value="{{ request.GET.user_idup }}" required>
             <input type="password" placeholder="סיסמה (אורך 8-10, מכיל לפחות אות אחת, סיפרה אחת ותו מיוחד אחד)" class="input_s1" name="passwordup" value="{{ request.GET.passwordup }}" required>
             <input type="password" placeholder="אימות סיסמה" class="input_s1" name="password2up" value="{{ request.GET.password2up }}" required>

@@ -89,15 +89,12 @@ def submit_Doctor(request):
         if (not checkName(name)): 
             messages.error(request, 'ההרשמה לא בוצעה, שם משתמש לא תקין')
             return render(request,'index.html')
-
         if (len(user_id) != 9):
             messages.error(request, 'נא להזין ת"ז עם 9 ספרות (כולל ספרת ביקורת)')
             return render(request,'index.html')
-
         if (password != password2):
             messages.error(request, 'ההרשמה לא בוצעה, אנא הזן בשנית סיסמאות תואמות')
             return render(request,'index.html')
-
         if (not checkPassword(password)):
             print(password) 
             messages.error(request, 'ההרשמה לא בוצעה, סיסמה לא תקינה')
@@ -192,15 +189,12 @@ def patientQ(request,user_id):
             wb = openpyxl.load_workbook(excel_file)
             # getting all sheets
             sheets = wb.sheetnames
-            print(sheets)
 
             # getting a particular sheet
             worksheet = wb["גיליון1"]
-            # print(worksheet)
 
             # getting active sheet
             active_sheet = wb.active
-            # print(active_sheet)
 
             WBC = worksheet["A2"].value
             Neut = worksheet["B2"].value
@@ -263,7 +257,6 @@ def patientQ(request,user_id):
     
         # Sheet header, first row
         row_num = 0
-    
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
 
