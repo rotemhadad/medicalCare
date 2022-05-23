@@ -2,12 +2,13 @@
 <title>Petient info</title>
   
 <body>
+{% load static %}
+
 <div class="wrapper" >
-    <div class="container">
+    <img class="main_img" src="{% static 'patientQ.png' %}" alt="home" />
+
         <div class="tabs">
-
-            <h3>אנא הזן פרטי מטופל</h3>
-
+            <h3 class="title">אנא הזן פרטי מטופל</h3>
             <form action = "{% url 'doctor:patientQ' doctor.user_id %}" method= "post" enctype="multipart/form-data">
 
                 {% csrf_token %}            
@@ -36,8 +37,8 @@
 
                 {% include 'messages.html' %}
                 
-                <h3 style="margin-top: 15px;">מלא פרטי בדיקות דם</h3>
-                <h6>שים לב! במידה והעלת קובץ הוא יבחר כמילוי השדות</h6>
+                <h3 class="title" style="margin-top: 15px;">מלא פרטי בדיקות דם</h3>
+                <h6 style="color: white;">שים לב! במידה והעלת קובץ הוא יבחר כמילוי השדות</h6>
                 
                 <br />
 
@@ -62,6 +63,6 @@
             </form>
             
         </div>
-    </div>
+
 </div>
 </body>

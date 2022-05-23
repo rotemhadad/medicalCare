@@ -7,7 +7,6 @@ from . import views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import include, path
 
 
 app_name = 'doctor'
@@ -22,3 +21,4 @@ urlpatterns = [
     path('export_users_xls/', views.export_users_xls),
 
 ]
+urlpatterns += staticfiles_urlpatterns()

@@ -2,15 +2,17 @@
 <title>Home Page Doctor</title>
 
     <body>
-     <div class="wrapper">
-    <div class="container">
-        <h3> {{doctor.name}} ברוך הבא</h3>
-        <br><br>
+      {% load static %}
 
-      <div display: flex;>
-            <button class="btn"><a href="/homePage/patientQ/{{doctor.user_id}}" role="button">שאלות למטופל</a></button>
-            <button class="btn"><a href="/export_users_xls" role="button">אקסל מטופלים</a></button>
+      <div class="wrapper">
+        <img class="main_img" src="{% static 'homepaage.png' %}" alt="home" />
+
+        <h3 class="title">ברוך הבא {{doctor.name}}</h3>
+        <br/>
+        <div class="main_btn">
+              <button class="btn"><a href="/homePage/patientQ/{{doctor.user_id}}" role="button">שאלות למטופל</a></button>
+              <button class="btn"><a href="/export_users_xls" role="button">אקסל מטופלים</a></button>
+        </div>
       </div>
-       
     </body>
 </html>
