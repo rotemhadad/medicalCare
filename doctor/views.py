@@ -180,7 +180,7 @@ def patientQ(request,user_id):
     pregnancy = request.POST.get("pregnancy")
 
 
-    if(patient_id!=None and gender!=None and age!=None and name!=None and lastName!=None):      
+    if(patient_id!=None and gender!=None and age!=None and name!=None and lastName!=None):
         #excel file
         bloodTest=BloodTest(WBC=None,Neut=None,Lymph=None,RBC=None,HCT=None,Urea=None,Hb=None,Crtn=None,Iron=None,HDL=None,AP=None)
         excel_file = request.FILES.get("excel_file",None)
@@ -224,11 +224,11 @@ def patientQ(request,user_id):
             AP = request.POST.get('AP')
             if(WBC=="" or Neut=="" or Lymph=="" or RBC=="" or HCT=="" or Urea=="" or
                 Hb=="" or Crtn=="" or Iron=="" or HDL=="" or AP==""):
-                    messages.error(request, 'אנא מלא את כל הערכים')
+                    messages.error(request, 'אנא מלא את כל ערכי בדיקות הדם')
                     return render(request,'patientQ.html', {'doctor':doctor})
 
             else:
-                bloodTest=BloodTest(WBC=WBC,Neut=Neut,Lymph=Lymph,RBC=RBC,HCT=HCT,Urea=Urea,Hb=Hb,Crtn=Crtn,Iron=Iron,HDL=HDL,AP=AP)
+                bloodTest=BloodTest(WBC=WBC,Neut=float(Neut),Lymph=float(Lymph),RBC=RBC,HCT=float(HCT),Urea=Urea,Hb=Hb,Crtn=Crtn,Iron=Iron,HDL=HDL,AP=AP)
         bloodTest.save()
         
         lst=[smoke,eastCommunity,ethiopian,pregnancy]
@@ -243,7 +243,7 @@ def patientQ(request,user_id):
 
         if (age!= None):
             try:
-                diagnose(bloodTest,patient,float(age))
+                diagnose(bloodTest,patient,age)
             except:
                 messages.error(request, 'אנא מלא את הפרטים תקין')
                 return render(request,'patientQ.html', {'doctor':doctor})
@@ -289,8 +289,8 @@ def patientQ(request,user_id):
                         ws.write(1, col_num, row[col_num], font_style)
         wb.save(response)
         return response
-        #return render(request,'patientQ.html', {'doctor':doctor,'patient':patient})
     else:
+        messages.error(request, 'אנא מלא את כל פרטי המטופל')
         return render(request,'patientQ.html', {'doctor':doctor})
 
 
@@ -304,6 +304,7 @@ def checkTrack(track,lst):
             track.append(i)
 
 def diagnose(bloodtest,patient,age):
+ 
     anemia  = " אנמיה- שני כדורי 10 מג של בי12 ביום למשך חודש "
     diet = " דיאטה- לתאם פגישה עם תזונאי "
     bleading = " דימום- להתפנות בדחיפות לבית החולים "
@@ -338,21 +339,21 @@ def diagnose(bloodtest,patient,age):
         if (age>=0 and age<=3):
             if (float(bloodtest.WBC)<6000):
                 patient.diagnose+=json.dumps(" ערכים נמוכים של כמות תאי הדם הלבנים הכללית מצביעים על מחלה ויראלית, כשל של מערכת החיסון ובמקרים נדירים ביותר על סרטן. ",ensure_ascii=False)
-                checkTrack(track, [viralDisease,cancer,bloodDisease])
+                checkTrack(track, [viralDisease,cancer])
             if (float(bloodtest.WBC)>17500):
                 patient.diagnose+=json.dumps(" ערכים גבוהים של כמות תאי הדם הלבנים הכללית מצביעים לרוב על קיומו של זיהום, אם קיימת מחלת חום. במקרים אחרים, נדירים ביותר, עלולים ערכים גבוהים מאוד להעיד על מחלת דם או סרטן. ",ensure_ascii=False)
                 checkTrack(track, [infection,bloodDisease,cancer])
         elif (age>3 and age<=17):
             if (float(bloodtest.WBC)<5500):
                 patient.diagnose+=json.dumps(" ערכים נמוכים של כמות תאי הדם הלבנים הכללית מצביעים על מחלה ויראלית, כשל של מערכת החיסון ובמקרים נדירים ביותר על סרטן. ",ensure_ascii=False)
-                checkTrack(track, [viralDisease,bloodDisease,cancer])           
+                checkTrack(track, [viralDisease,cancer])           
             if (float(bloodtest.WBC)>15500):
                 patient.diagnose+=json.dumps(" ערכים גבוהים של כמות תאי הדם הלבנים הכללית מצביעים לרוב על קיומו של זיהום, אם קיימת מחלת חום. במקרים אחרים, נדירים ביותר, עלולים ערכים גבוהים מאוד להעיד על מחלת דם או סרטן. ",ensure_ascii=False)
                 checkTrack(track, [infection,bloodDisease,cancer])
         else:
             if (float(bloodtest.WBC)<4500):
                 patient.diagnose+=json.dumps(" ערכים נמוכים של כמות תאי הדם הלבנים הכללית מצביעים על מחלה ויראלית, כשל של מערכת החיסון ובמקרים נדירים ביותר על סרטן. ",ensure_ascii=False)
-                checkTrack(track, [viralDisease,bloodDisease,cancer])       
+                checkTrack(track, [viralDisease,cancer])       
             if (float(bloodtest.WBC)>11000):
                 patient.diagnose+=json.dumps(" ערכים גבוהים של כמות תאי הדם הלבנים הכללית מצביעים לרוב על קיומו של זיהום, אם קיימת מחלת חום. במקרים אחרים, נדירים ביותר, עלולים ערכים גבוהים מאוד להעיד על מחלת דם או סרטן. ",ensure_ascii=False)
                 checkTrack(track, [infection,bloodDisease,cancer])       
@@ -402,9 +403,12 @@ def diagnose(bloodtest,patient,age):
             checkTrack(track, [smokeing]) 
 
     #Urea check
+    print(type(patient.eastCommunity))
+    print(patient.eastCommunity)
+    print(bloodtest.Urea)
     if((patient.eastCommunity == False and float(bloodtest.Urea)<17) or (patient.eastCommunity == True and float(bloodtest.Urea)<18.7)):
         patient.diagnose+=json.dumps(" ערכים נמוכים ברמת השתנן בדם. שתנן הוא התוצר הסופי של תהליך חילוף החומרים של חלבונים בגוף- עלול להצביע על: תת תזונה, דיאטה דלת חלבון או מחלת כבד. ",ensure_ascii=False)
-        if(patient.pregancy == True):
+        if(patient.pregnancy == True):
             patient.diagnose+=json.dumps(" המטופלת בהריון - נא לשים לב בהריון רמת השתנן יורדת. ",ensure_ascii=False)
         checkTrack(track, [malnutrition,diet,liverDisease]) 
     if((patient.eastCommunity == False and float(bloodtest.Urea)>43) or (patient.eastCommunity == True and float(bloodtest.Urea)>47.3)):
@@ -420,10 +424,10 @@ def diagnose(bloodtest,patient,age):
         patient.diagnose+=json.dumps(" ערכים גבוהים ברמת ההמוגלובין- המוגלובין הוא מרכיב בתוך הכדורית האדומה . ",ensure_ascii=False)
 
     #Crtn check
-    if((age>=0 and age<=2 and float(bloodtest.Crtn)<0.2) or (age>=3 and age<=17 and float(bloodtest.Crtn)<0.5) or (age>=18 and age<=59 and float(bloodtest.Crtn)<0.6) or (age>=60 and float(bloodtest.Crtn)<0.6)):
+    if((age>=0 and age<=2 and float(bloodtest.Crtn)<0.2) or (age>2 and age<18 and float(bloodtest.Crtn)<0.5) or (age>=18 and age<60 and float(bloodtest.Crtn)<0.6) or (age>=60 and float(bloodtest.Crtn)<0.6)):
         patient.diagnose+=json.dumps(" ערכים נמוכים בקריטאינין -  תוצר פירוק של מרכיב המיוצר בגוף ונמצא בשריר הקרוי קריאנין פוספט. בדיקת קריאטינין חשובה ביותר כיוון שהיא נותנת אמת מידה לגבי תפקוד הכליות. ערכים נמוכים נראים לרוב בחולים בעלי מסת שריר ירודה מאוד ואנשים בתת תזונה שאינם צורכים די חלבון",ensure_ascii=False)
-        checkTrack(track, [anemia,muscleDisease,malnutrition]) 
-    if((age>=0 and age<=2 and float(bloodtest.Crtn)>0.5) or (age>=3 and age<=17 and float(bloodtest.Crtn)>1) or (age>=18 and age<=59 and float(bloodtest.Crtn)>1) or (age>=60 and float(bloodtest.Crtn)>1.2)):
+        checkTrack(track, [muscleDisease,malnutrition]) 
+    if((age>=0 and age<=2 and float(bloodtest.Crtn)>0.5) or (age>2 and age<18 and float(bloodtest.Crtn)>1) or (age>=18 and age<60 and float(bloodtest.Crtn)>1) or (age>=60 and float(bloodtest.Crtn)>1.2)):
         patient.diagnose+=json.dumps(" ערכים גבוהים בקריטאינין - תוצר פירוק של מרכיב המיוצר בגוף ונמצא בשריר הקרוי קריאנין פוספט. בדיקת קריאטינין חשובה ביותר כיוון שהיא נותנת אמת מידה לגבי תפקוד הכליות- הערכים עלולים להצביע על בעיה כלייתית ובמקרים חמורים על אי ספיקת כליות. ערכים גבוהים ניתן למצוא גם בעת שלשולים והקאות (הגורמים לפירוק מוגבר של שריר ולערכים גבוהים של קריאטינין), מחלות שריר וצריכה מוגברת של בשר. ",ensure_ascii=False)
         checkTrack(track, [kidneyDisease,muscleDisease,meatInc]) 
 
@@ -437,10 +441,10 @@ def diagnose(bloodtest,patient,age):
         checkTrack(track, [ironPoisoning])
 
     #HDL check
-    if ((patient.ethiopian == False and (patient.gender == "man" and float(bloodtest.HDL)<29) or (patient.gender == "woman" and float(bloodtest.HDL)<34)) or (patient.ethiopian == True and (patient.gender == "man" and float(bloodtest.HDL)<34.8) or (patient.gender == "woman" and float(bloodtest.HDL)<40.8)) ):
+    if ((patient.ethiopian == False and ((patient.gender == "man" and float(bloodtest.HDL)<29) or (patient.gender == "woman" and float(bloodtest.HDL)<34))) or (patient.ethiopian == True and ((patient.gender == "man" and float(bloodtest.HDL)<34.8) or (patient.gender == "woman" and float(bloodtest.HDL)<40.8))) ):
         patient.diagnose+=json.dumps(" ערכים נמוכים באץ'-די-אל הקרוי גם הכולסטרול הטוב, הינו מולקולה דמוית חלבון, אשר נושאת את הכולסטרול מתאי הגוף אל הכבד,שם מפורק הכולסטרול. בכך מסייע ה-אץ'-די-אל לגוף להיפטר מעודפי שומנים. רמות נמוכותת עשויות להצביע על סיכון למחלות לב, על היפרליפידמיה (יתר שומנים בדם) או על סוכרת מבוגרים. ",ensure_ascii=False)
         checkTrack(track, [heartDisease,hiperlipidemia,adultDiabetes]) 
-    if ((patient.ethiopian == False and (patient.gender == "man" and float(bloodtest.HDL)>62) or (patient.gender == "woman" and float(bloodtest.HDL)>82)) or (patient.ethiopian == True and (patient.gender == "man" and float(bloodtest.HDL)>62*1.2) or (patient.gender == "woman" and float(bloodtest.HDL)>82*1.2)) ):
+    if ((patient.ethiopian == False and ((patient.gender == "man" and float(bloodtest.HDL)>62) or (patient.gender == "woman" and float(bloodtest.HDL)>82))) or (patient.ethiopian == True and ((patient.gender == "man" and float(bloodtest.HDL)>62*1.2) or (patient.gender == "woman" and float(bloodtest.HDL)>82*1.2))) ):
         patient.diagnose+=json.dumps(" ערכים גבוהים באץ'-די-אל הקרוי גם הכולסטרול הטוב, הינו מולקולה דמוית חלבון, אשר נושאת את הכולסטרול מתאי הגוף אל הכבד,שם מפורק הכולסטרול. בכך מסייע ה-אץ'-די-אל לגוף להיפטר מעודפי שומנים. רמות גבוהות לרוב אינן מזיקות. פעילות גופנית מעלה את רמות הכולסטרול הטוב. ",ensure_ascii=False)
 
     #AP check
