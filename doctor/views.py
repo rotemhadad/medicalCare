@@ -26,6 +26,7 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 import xlwt
 from itertools import chain
+import json
 
 def export_users_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
@@ -243,7 +244,7 @@ def patientQ(request,user_id):
 
         if (age!= None):
             try:
-                diagnose(bloodTest,patient,age)
+                diagnose(bloodTest,patient,float(age))
             except:
                 messages.error(request, 'אנא מלא את הפרטים תקין')
                 return render(request,'patientQ.html', {'doctor':doctor})
