@@ -43,10 +43,10 @@
                 <br />
 
                 <input type="text" placeholder="WBC" class="input_s2" name="WBC" id = "WBC" value="{{ request.GET.WBC }}" />
-                <input type="number" step="0.001" placeholder="Neut(0-100)" class="input_s2" name="Neut" id = "Neut" value="{{ request.GET.Neut }}" />
-                <input type="number" step="0.001" placeholder="Lymph(0-100)" class="input_s2" name="Lymph" id = "Lymph" value="{{ request.GET.Lymph }}" />
+                <input type="number" step="0.001" placeholder="Neut(0-100)" class="input_s2" name="Neut" id = "Neut" value="{{ request.GET.Neut }}" min=0 max=100 />
+                <input type="number" step="0.001" placeholder="Lymph(0-100)" class="input_s2" name="Lymph" id = "Lymph" value="{{ request.GET.Lymph }}" min=0 max=100 />
                 <input type="text" placeholder="RBC" class="input_s2" name="RBC" id = "RBC" value="{{ request.GET.RBC }}" />
-                <input type="number" step="0.001" placeholder="HCT(0-100)" class="input_s2" name="HCT" id = "HCT" value="{{ request.GET.HCT }}" />
+                <input type="number" step="0.001" placeholder="HCT(0-100)" class="input_s2" name="HCT" id = "HCT" value="{{ request.GET.HCT }}" min=0 max=100 />
                 <input type="text" placeholder="Urea" class="input_s2" name="Urea" id = "Urea" value="{{ request.GET.Urea }}" />
                 <input type="text" placeholder="Hb" class="input_s2" name="Hb" id = "Hb" value="{{ request.GET.Hb }}" />
                 <input type="text" placeholder="Crtn" class="input_s2" name="Crtn" id = "Crtn" value="{{ request.GET.Crtn }}" />

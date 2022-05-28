@@ -97,7 +97,6 @@ def submit_Doctor(request):
             messages.error(request, 'ההרשמה לא בוצעה, אנא הזן בשנית סיסמאות תואמות')
             return render(request,'index.html')
         if (not checkPassword(password)):
-            print(password) 
             messages.error(request, 'ההרשמה לא בוצעה, סיסמה לא תקינה')
             return render(request,'index.html')
 
@@ -230,7 +229,7 @@ def patientQ(request,user_id):
 
             else:
                 bloodTest=BloodTest(WBC=WBC,Neut=float(Neut),Lymph=float(Lymph),RBC=RBC,HCT=float(HCT),Urea=Urea,Hb=Hb,Crtn=Crtn,Iron=Iron,HDL=HDL,AP=AP)
-        bloodTest.save()
+        
         
         lst=[smoke,eastCommunity,ethiopian,pregnancy]
         for i in range(0,len(lst)):
@@ -245,10 +244,12 @@ def patientQ(request,user_id):
         if (age!= None):
             try:
                 diagnose(bloodTest,patient,float(age))
+                bloodTest.save()
+                patient.save()
             except:
                 messages.error(request, 'אנא מלא את הפרטים תקין')
                 return render(request,'patientQ.html', {'doctor':doctor})
-            patient.save()
+            
 
         response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename="medical_record.xls"'
@@ -291,7 +292,6 @@ def patientQ(request,user_id):
         wb.save(response)
         return response
     else:
-        messages.error(request, 'אנא מלא את כל פרטי המטופל')
         return render(request,'patientQ.html', {'doctor':doctor})
 
 
@@ -392,21 +392,18 @@ def diagnose(bloodtest,patient,age):
             checkTrack(track, [anemia,bleading]) 
         if (float(bloodtest.HCT)>47):
             patient.diagnose+=json.dumps(" ערכים נמוכים בנפח כדוריות הדם האדומות בתוך כלל נוזל הדם. - שכיח בדרך כלל אצל מעשנים. ",ensure_ascii=False)
-        if (patient.smoke == True):
-            checkTrack(track, [smokeing]) 
+            if (patient.smoke == True):
+                checkTrack(track, [smokeing]) 
     if(patient.gender == "man"):
         if (float(bloodtest.HCT)<37):
             patient.diagnose+=json.dumps(" ערכים נמוכים בנפח כדוריות הדם האדומות בתוך כלל נוזל הדם. - מצביעים לרוב על דימום או על אנמיה ",ensure_ascii=False)
             checkTrack(track, [anemia,bleading]) 
         if (float(bloodtest.HCT)>54):
             patient.diagnose+=json.dumps(" ערכים נמוכים בנפח כדוריות הדם האדומות בתוך כלל נוזל הדם. - שכיח בדרך כלל אצל מעשנים.  ",ensure_ascii=False)
-        if (patient.smoke == True):
-            checkTrack(track, [smokeing]) 
+            if (patient.smoke == True):
+                checkTrack(track, [smokeing]) 
 
     #Urea check
-    print(type(patient.eastCommunity))
-    print(patient.eastCommunity)
-    print(bloodtest.Urea)
     if((patient.eastCommunity == False and float(bloodtest.Urea)<17) or (patient.eastCommunity == True and float(bloodtest.Urea)<18.7)):
         patient.diagnose+=json.dumps(" ערכים נמוכים ברמת השתנן בדם. שתנן הוא התוצר הסופי של תהליך חילוף החומרים של חלבונים בגוף- עלול להצביע על: תת תזונה, דיאטה דלת חלבון או מחלת כבד. ",ensure_ascii=False)
         if(patient.pregnancy == True):
